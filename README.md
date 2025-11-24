@@ -44,7 +44,9 @@ npm install
 4. Configure environment variables, create a .env file in the root of the backend project
 
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/flavorai?schema=public"
+
 JWT_SECRET="super_secret_jwt_key"
+
 PORT=3000
 
 5. Build and start Docker containers for PostgreSQL:
@@ -56,6 +58,7 @@ docker-compose up -d
 6. Run Prisma migrations & generate client
 
 npx prisma migrate dev --name init_db
+
 npx prisma generate
 
 7. Start the backend server
