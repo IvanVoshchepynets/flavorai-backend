@@ -1,10 +1,12 @@
+// prisma/schema.prisma
+
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -20,15 +22,15 @@ model User {
 model Recipe {
   id           Int       @id @default(autoincrement())
   title        String
-  description  String?   
-  ingredients  String    @db.Text     
-  instructions String    @db.Text     
-  cuisine      String?                
+  description  String?
+  ingredients  String    @db.Text
+  instructions String    @db.Text
+  cuisine      String?
 
   author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int
 
-  ratings Rating[]
+  ratings   Rating[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -38,14 +40,13 @@ model Rating {
   id       Int      @id @default(autoincrement())
   value    Int      
 
-  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
   recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId Int
 
   createdAt DateTime @default(now())
-
 
   @@unique([userId, recipeId])
 }
